@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just For You</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Rich, Fully Pink Animated Background */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle, #ff66a3, #ff1a75, #cc0052);
+            background-size: 200% 200%;
+            animation: pinkPulse 6s ease-in-out infinite alternate;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes pinkPulse {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Container for the lyrics */
+        .lyrics-container {
+            position: relative;
+            width: 90%;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        /* The Animated Lyric Text */
+        .lyric-line {
+            position: absolute;
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            text-align: center;
+            opacity: 0; 
+            
+            /* Beautiful blue gradient */
+            background: linear-gradient(to bottom, #ffffff, #aee1ff, #33adff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
+            
+            animation: fadeLyric 4s ease-in-out forwards;
+        }
+
+        /* Timing each lyric perfectly */
+        .lyric-line:nth-child(1) { animation-delay: 1s; }
+        .lyric-line:nth-child(2) { animation-delay: 5s; }
+        .lyric-line:nth-child(3) { animation-delay: 9s; }
+        .lyric-line:nth-child(4) { animation-delay: 13s; }
+
+        @keyframes fadeLyric {
+            0% { opacity: 0; transform: translateY(20px) scale(0.95); }
+            20% { opacity: 1; transform: translateY(0) scale(1); }
+            80% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-20px) scale(1.05); }
+        }
+
+        /* The Button to go to the final page */
+        .next-btn-wrapper {
+            position: absolute;
+            bottom: 25%;
+            opacity: 0;
+            /* Fades in at exactly 15 seconds */
+            animation: fadeInBtn 2s ease-in forwards;
+            animation-delay: 15s; 
+            z-index: 20;
+        }
+
+        @keyframes fadeInBtn {
+            to { opacity: 1; }
+        }
+
+        .next-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .next-btn:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .lyric-line { font-size: 2.8rem; }
+            .next-btn { font-size: 1.1rem; padding: 15px 35px; }
+            .next-btn-wrapper { bottom: 20%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="magic-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></div>
+
+    <div class="lyrics-container">
+        <div class="lyric-line">I was just thinking...</div>
+        <div class="lyric-line">We share so many memes...</div>
+        <div class="lyric-line">And talk so much...</div>
+        <div class="lyric-line">But there is one thing missing.</div>
+    </div>
+
+    <div class="next-btn-wrapper">
+        <a href="page2.html" class="next-btn">I have a question for you...</a>
+    </div>
+
+    <script>
+        // Creates floating musical notes
+        const magicLayer = document.getElementById('magic-layer');
+
+        function createFloatingNote() {
+            const note = document.createElement('div');
+            
+            // Array of different musical emojis
+            const notes = ['🎵', '🎶', '🎼', '✨'];
+            note.innerHTML = notes[Math.floor(Math.random() * notes.length)];
+            
+            note.style.position = 'absolute';
+            
+            // Starts randomly at the bottom
+            note.style.left = (Math.random() * 100) + 'vw';
+            note.style.top = '110vh'; 
+            
+            // Random sizes and transparency to create depth
+            note.style.fontSize = (Math.random() * 25 + 15) + 'px';
+            note.style.color = 'rgba(255, 255, 255, 0.6)';
+            note.style.transition = 'transform 5s linear, opacity 5s ease-out';
+            
+            magicLayer.appendChild(note);
+
+            // Trigger the float animation upwards
+            setTimeout(() => {
+                note.style.transform = `translateY(-120vh) rotate(${(Math.random() - 0.5) * 45}deg)`;
+                note.style.opacity = '0';
+            }, 10);
+
+            // Clean up off-screen notes
+            setTimeout(() => note.remove(), 5000);
+        }
+
+        // Extremely fast spawn rate for a dense, active background of music notes
+        setInterval(createFloatingNote, 150);
+    </script>
+</body>
+</html>
