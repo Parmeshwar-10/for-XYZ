@@ -19,9 +19,6 @@
             background-size: 200% 200%;
             animation: pinkPulse 6s ease-in-out infinite alternate;
             overflow: hidden; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         @keyframes pinkPulse {
@@ -29,27 +26,26 @@
             100% { background-position: 100% 50%; }
         }
 
-        /* Wrapper to keep everything centered */
-        .content-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        /* Perfectly centered text container */
+        .center-wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 10;
-            gap: 80px; /* Increased the space between the text and the button */
             width: 100%;
-            text-align: center;
+            display: flex;
+            justify-content: center;
         }
 
-        /* Fixed Transparent Screen: No borders, no lines, perfectly smooth */
+        /* Normal rectangular box, no blur effects to prevent browser line glitches */
         .text-container {
-            background: rgba(255, 255, 255, 0.08); /* Very soft transparent fill */
-            backdrop-filter: blur(8px); /* Smooth blur effect */
-            -webkit-backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.25); /* Clean, semi-transparent white */
             padding: 40px 70px;
             border-radius: 20px;
-            border: none; /* Removed the line causing the glitch */
-            box-shadow: none; /* Removed shadow to prevent weird edge lines */
+            border: none; 
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow just on the box */
+            text-align: center;
         }
 
         /* The Transparent Text with White Outline */
@@ -63,13 +59,24 @@
             letter-spacing: 2px;
         }
 
+        /* Wrapper to lock the button directly to the bottom */
+        .bottom-wrapper {
+            position: absolute;
+            bottom: 40px; /* Distance from the bottom of the screen */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+        }
+
         /* The Heart-Shaped Button containing text */
         .heart-btn {
             position: relative;
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            width: 140px; /* Increased size slightly to fit the text */
+            width: 140px; 
             height: 140px;
             cursor: pointer;
             transition: transform 0.3s ease;
@@ -84,7 +91,7 @@
             width: 100%;
             height: 100%;
             fill: #ff0000; /* Bright Red heart */
-            filter: drop-shadow(0 15px 25px rgba(255, 0, 0, 0.6));
+            filter: drop-shadow(0 10px 20px rgba(255, 0, 0, 0.5));
             z-index: 1;
         }
 
@@ -96,7 +103,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             font-family: 'Arial', sans-serif;
-            margin-top: -15px; /* Lifts the text slightly so it sits perfectly in the visual center of the heart */
+            margin-top: -15px; /* Adjusts text visually to center of heart */
         }
 
         /* Button Hover and Click Effects */
@@ -142,9 +149,9 @@
         @media (max-width: 600px) {
             .text-container { padding: 30px 40px; }
             .main-text { font-size: 3.5rem; -webkit-text-stroke: 2px #ffffff; }
+            .bottom-wrapper { bottom: 25px; }
             .heart-btn { width: 120px; height: 120px; }
             .btn-text { font-size: 1.2rem; margin-top: -10px; }
-            .content-wrapper { gap: 60px; }
         }
     </style>
 </head>
@@ -153,25 +160,24 @@
     <!-- Dynamic Background Hearts -->
     <div class="heart-container" id="heart-container"></div>
 
-    <!-- Central Content Area -->
-    <div class="content-wrapper">
-        
-        <!-- Smooth, borderless transparent screen for Text -->
+    <!-- Centered Text Area (No vertical lines!) -->
+    <div class="center-wrapper">
         <div class="text-container">
             <div class="main-text">XYZ</div>
         </div>
-        
-        <!-- Heart Shaped Button with Text inside -->
+    </div>
+    
+    <!-- Heart Shaped Button Locked to the Bottom -->
+    <div class="bottom-wrapper">
         <a href="page1.html" class="heart-btn" aria-label="Next Page">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
             </svg>
             <span class="btn-text">XYZ</span>
         </a>
-
     </div>
 
-    <!-- JavaScript for Background Hearts -->
+    <!-- JavaScript for Lots of Popping Background Hearts -->
     <script>
         function createMiniHeart() {
             const container = document.getElementById('heart-container');
@@ -185,7 +191,7 @@
             
             const size = Math.random() * 40 + 15; 
             const left = Math.random() * 100; 
-            const duration = Math.random() * 4 + 3; // Slightly faster floating
+            const duration = Math.random() * 4 + 3; // Float up naturally
 
             heart.style.color = randomColor;
             heart.style.fontSize = size + 'px';
@@ -199,7 +205,7 @@
             }, duration * 1000);
         }
 
-        // Drastically increased the amount of hearts by running this every 80 milliseconds
+        // Running every 80 milliseconds to ensure max hearts
         setInterval(createMiniHeart, 80);
     </script>
 </body>
