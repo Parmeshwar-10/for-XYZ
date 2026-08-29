@@ -163,14 +163,22 @@
 
         /* MOBILE ADJUSTMENTS - THIS IS WHERE YOUR NEW CHANGES ARE */
         @media (max-width: 600px) {
-            .text-container { padding: 20px 30px; }
-            .main-text { font-size: 2.5rem; -webkit-text-stroke: 1.5px #ffffff; }
+            .text-container { 
+    padding: 15px 20px; 
+    width: 85%; 
+    box-sizing: border-box; 
+}
+            .main-text { 
+    font-size: 1.8rem; 
+    line-height: 1.3; 
+    -webkit-text-stroke: 1px #ffffff; 
+}
             
             /* Moves the text box much higher up on the screen */
-            .center-wrapper { top: 22%; } 
+            .center-wrapper { top: 30%; } 
             
             /* Moves the gift box button to the middle-lower portion (above the bottom) */
-            .bottom-wrapper { bottom: 45%; } 
+            .bottom-wrapper { bottom: 15%; } 
             
             .heart-btn { width: 120px; height: 120px; }
             #gift-emoji { font-size: 95px; } /* Slightly scales the gift down for mobile */
