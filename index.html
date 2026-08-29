@@ -19,7 +19,6 @@
             animation: pinkPulse 6s ease-in-out infinite alternate;
             overflow: hidden; 
             perspective: 1000px;
-            touch-action: none; /* Prevents accidental scrolling while scratching */
         }
 
         @keyframes pinkPulse {
@@ -27,7 +26,7 @@
             100% { background-position: 100% 50%; }
         }
 
-        /* Centered Box - Adjusted to be higher up */
+        /* Centered Box */
         .center-wrapper {
             position: absolute;
             top: 35%; 
@@ -37,26 +36,25 @@
             width: 100%;
             display: flex;
             justify-content: center;
+            pointer-events: none; /* Lets touches pass through to the burst effect */
         }
 
-        /* Smaller, more elegant transparent box */
+        /* The transparent box */
         .text-container {
             background: rgba(255, 255, 255, 0.25); 
-            padding: 25px 50px; /* Reduced padding */
+            padding: 25px 50px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
             text-align: center;
-            transition: transform 0.1s ease-out; 
-            transform-style: preserve-3d;
         }
 
-        /* Smaller Main Text */
+        /* The Main Text - Transparent with white outline */
         .main-text {
             font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem; /* Decreased from 5rem */
+            font-size: 3.5rem; 
             margin: 0;
             color: transparent; 
-            -webkit-text-stroke: 2px #ffffff; /* Slightly thinner outline */
+            -webkit-text-stroke: 2px #ffffff; 
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
             letter-spacing: 2px;
             min-height: 70px;
@@ -72,16 +70,16 @@
         /* Scratch Button Wrapper */
         .bottom-wrapper {
             position: absolute;
-            bottom: 70px; /* Shifted up to make room for the footer */
+            bottom: 70px; 
             left: 0;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            z-index: 20; /* High z-index so it's easily touchable */
+            z-index: 20; 
         }
 
-        /* Small instruction text above the button */
+        /* Instruction text */
         .scratch-hint {
             color: rgba(255, 255, 255, 0.9);
             font-family: 'Arial', sans-serif;
@@ -105,7 +103,7 @@
             width: 140px; 
             height: 140px;
             cursor: pointer;
-            transition: transform 0.1s ease;
+            touch-action: none; /* CRITICAL: Prevents screen scrolling while scratching */
             animation: pulseBtn 1.5s infinite;
         }
 
@@ -115,10 +113,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            fill: #0077ff; /* Beautiful vivid blue */
-            filter: drop-shadow(0 10px 20px rgba(0, 119, 255, 0.6));
+            fill: #0077ff; /* Vivid blue */
+            filter: drop-shadow(0 5px 15px rgba(0, 119, 255, 0.6));
             z-index: 1;
-            transition: all 0.2s ease;
+            transition: filter 0.1s ease;
         }
 
         .btn-text {
@@ -128,7 +126,7 @@
             font-size: 1.5rem;
             font-weight: bold;
             margin-top: -15px; 
-            pointer-events: none; /* Let touches pass through to the button */
+            pointer-events: none; 
         }
 
         @keyframes pulseBtn {
@@ -136,25 +134,37 @@
             50% { transform: scale(1.05); }
         }
 
-        /* Bottom Footer Text */
+        /* Custom Footer: Transparent text with solid blue heart */
         .footer-text {
             position: absolute;
             bottom: 15px;
             width: 100%;
             text-align: center;
-            color: rgba(255, 255, 255, 0.9);
             font-family: 'Arial', sans-serif;
             font-size: 1.1rem;
+            font-weight: bold;
             letter-spacing: 1px;
             z-index: 10;
             pointer-events: none;
         }
 
+        /* Makes just the words transparent with a white outline */
+        .transparent-words {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
+        }
+
         /* Background and Magic Animation layers */
-        .heart-container, .magic-layer {
+        .heart-container {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 1;
+        }
+        
+        .magic-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 2;
         }
 
         .mini-heart {
@@ -163,11 +173,12 @@
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.7));
         }
 
-        @keyframes floatUp {
-            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0; }
-            20% { opacity: 1; }
+        /* Animation: Starts at bottom (small) and floats up (increasing in size) */
+        @keyframes popUpwards {
+            0% { transform: translateY(110vh) scale(0.2); opacity: 0; }
+            10% { opacity: 1; }
             80% { opacity: 0.9; }
-            100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
+            100% { transform: translateY(-10vh) scale(2.0); opacity: 0; }
         }
 
         /* Mobile Adjustments */
@@ -198,7 +209,7 @@
     </div>
     
     <div class="bottom-wrapper">
-        <div class="scratch-hint">Scratch the heart to open...</div>
+        <div class="scratch-hint">Scratch the blue heart to open...</div>
         <div class="heart-btn" id="scratch-btn" aria-label="Next Page">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="heart-svg">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -207,89 +218,155 @@
         </div>
     </div>
 
-    <div class="footer-text">made with love by parm 💙</div>
+    <div class="footer-text">
+        <span class="transparent-words">made with</span> 💙 <span class="transparent-words">by parm</span>
+    </div>
 
     <script>
-        // --- 1. TYPEWRITER EFFECT ---
+        // --- 1. TYPEWRITER EFFECT (FIXED) ---
         const textElement = document.getElementById('typewriter-text');
         const textToType = "XYZ"; 
         let typeIndex = 0;
 
         function typeWriter() {
+            if (!textElement) return;
             if (typeIndex < textToType.length) {
                 textElement.innerHTML = textToType.substring(0, typeIndex + 1) + '<span class="cursor">|</span>';
                 typeIndex++;
-                setTimeout(typeWriter, 200); 
+                setTimeout(typeWriter, 150); 
             } else {
                 textElement.innerHTML = textToType; 
             }
         }
-        setTimeout(typeWriter, 800); 
+        setTimeout(typeWriter, 500); 
 
-        // --- 2. 3D HOVER TILT ---
-        const tiltBox = document.getElementById('tilt-box');
-        document.addEventListener('mousemove', (e) => {
-            let xAxis = (window.innerWidth / 2 - e.pageX) / 30;
-            let yAxis = (window.innerHeight / 2 - e.pageY) / 30;
-            tiltBox.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-
-        // --- 3. BACKGROUND HEARTS ---
+        // --- 2. BACKGROUND HEARTS: POPPING UP & GROWING (FIXED) ---
         function createMiniHeart() {
             const container = document.getElementById('heart-container');
+            if (!container) return;
             const heart = document.createElement('div');
             heart.classList.add('mini-heart');
             heart.innerHTML = '❤';
             const colors = ['#ffffff', '#ffffff', '#ff0000', '#ff1a75'];
             heart.style.color = colors[Math.floor(Math.random() * colors.length)];
-            heart.style.fontSize = (Math.random() * 40 + 15) + 'px';
+            
+            // Random horizontal start position
             heart.style.left = (Math.random() * 100) + 'vw';
-            const duration = Math.random() * 4 + 3;
-            heart.style.animation = `floatUp ${duration}s ease-in infinite`;
+            
+            // Starts small, animation will make it grow
+            heart.style.fontSize = '20px'; 
+            
+            const duration = Math.random() * 3 + 3; // 3 to 6 seconds to float up
+            heart.style.animation = `popUpwards ${duration}s ease-in infinite`;
+            
             container.appendChild(heart);
             setTimeout(() => heart.remove(), duration * 1000);
         }
+        // Runs incredibly fast to fill the screen
         setInterval(createMiniHeart, 150);
 
-        // --- 4. MAGIC CURSOR TRAIL ---
-        const magicLayer = document.getElementById('magic-layer');
-        function createTrail(x, y) {
-            if (Math.random() > 0.4) return; 
-            const sparkle = document.createElement('div');
-            sparkle.innerHTML = '✨';
-            sparkle.style.position = 'absolute';
-            sparkle.style.left = x + 'px';
-            sparkle.style.top = y + 'px';
-            sparkle.style.fontSize = '15px';
-            sparkle.style.pointerEvents = 'none';
-            sparkle.style.transition = 'all 0.5s ease-out';
-            magicLayer.appendChild(sparkle);
-
-            setTimeout(() => {
-                sparkle.style.transform = 'translateY(-20px) scale(0)';
-                sparkle.style.opacity = '0';
-            }, 10);
-            setTimeout(() => sparkle.remove(), 500);
-        }
-        document.addEventListener('mousemove', (e) => createTrail(e.clientX, e.clientY));
-        document.addEventListener('touchmove', (e) => createTrail(e.touches[0].clientX, e.touches[0].clientY));
-
-        // --- 5. HYPER-SENSITIVE HEARTBURST ON TOUCH & MUSIC ---
+        // --- 3. HIGH-SENSITIVITY TOUCH HEARTBURST (FIXED) ---
         let musicStarted = false;
-        // Using "pointerdown" makes it react instantly the millisecond they touch the screen
-        document.addEventListener('pointerdown', (e) => {
+        const magicLayer = document.getElementById('magic-layer');
+
+        function createBurst(x, y) {
+            // Trigger Music
             if (!musicStarted) {
                 const bgMusic = document.getElementById('bg-music');
-                bgMusic.play().catch(() => console.log("Waiting for user interaction."));
+                if(bgMusic) bgMusic.play().catch(() => {});
                 musicStarted = true;
             }
 
-            // Increased burst to 15 hearts for max sensitivity and impact
             for (let i = 0; i < 15; i++) {
                 const burstHeart = document.createElement('div');
                 burstHeart.innerHTML = '❤';
                 burstHeart.style.position = 'absolute';
-                burstHeart.style.left = e.clientX + 'px';
-                burstHeart.style.top = e.clientY + 'px';
-                burstHeart.style.color = Math
-                
+                burstHeart.style.left = x + 'px';
+                burstHeart.style.top = y + 'px';
+                burstHeart.style.color = Math.random() > 0.5 ? '#ffffff' : '#ff0000';
+                burstHeart.style.fontSize = (Math.random() * 25 + 10) + 'px';
+                burstHeart.style.pointerEvents = 'none';
+                burstHeart.style.transition = 'all 0.8s cubic-bezier(0.1, 0.8, 0.3, 1)';
+                magicLayer.appendChild(burstHeart);
+
+                setTimeout(() => {
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 80 + 30; 
+                    burstHeart.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`;
+                    burstHeart.style.opacity = '0';
+                }, 10);
+
+                setTimeout(() => burstHeart.remove(), 800);
+            }
+        }
+
+        // Works universally on Mouse and Touch screens instantly
+        document.addEventListener('mousedown', (e) => {
+            // Don't burst if they are clicking the button
+            if (!e.target.closest('#scratch-btn')) {
+                createBurst(e.clientX, e.clientY);
+            }
+        });
+        
+        document.addEventListener('touchstart', (e) => {
+            if (!e.target.closest('#scratch-btn')) {
+                createBurst(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+
+
+        // --- 4. SCRATCH TO OPEN LOGIC (FIXED) ---
+        const scratchBtn = document.getElementById('scratch-btn');
+        const heartSvg = document.getElementById('heart-svg');
+        let scratchProgress = 0;
+        const scratchThreshold = 25; // amount of scratching needed
+        let isRedirecting = false;
+
+        function triggerNextPage() {
+            if (isRedirecting) return;
+            isRedirecting = true;
+            
+            // Magical zoom out before leaving
+            scratchBtn.style.transform = 'scale(2)';
+            scratchBtn.style.opacity = '0';
+            scratchBtn.style.transition = 'all 0.6s ease-out';
+            
+            setTimeout(() => {
+                window.location.href = 'page1.html';
+            }, 600);
+        }
+
+        function handleScratch() {
+            if (isRedirecting) return;
+            scratchProgress++;
+
+            // Make the blue heart glow brighter the more it is scratched
+            const intensity = Math.min(scratchProgress / scratchThreshold, 1);
+            heartSvg.style.filter = `drop-shadow(0 0 ${15 + (intensity * 40)}px rgba(255, 255, 255, 0.9)) hue-rotate(${intensity * 30}deg)`;
+
+            if (scratchProgress >= scratchThreshold) {
+                triggerNextPage();
+            }
+        }
+
+        // Touch Scratch (Mobile) - "passive: false" is critical to stop screen scrolling
+        scratchBtn.addEventListener('touchmove', (e) => {
+            e.preventDefault(); 
+            handleScratch();
+        }, { passive: false });
+
+        // Mouse Scratch (Laptop)
+        scratchBtn.addEventListener('mousemove', (e) => {
+            if (e.buttons > 0) { // Only works if mouse is held down
+                handleScratch();
+            }
+        });
+
+        // Backup Click: If they just tap it rapidly, it still works
+        scratchBtn.addEventListener('click', () => {
+            scratchProgress += 5; 
+            handleScratch();
+        });
+    </script>
+</body>
+</html>
