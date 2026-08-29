@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proposal</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
     
     <style>
         /* Rich, Fully Pink Animated Background */
@@ -48,14 +48,19 @@
             text-align: center;
         }
 
-        /* The Main Text - Transparent with white outline */
+        /* The Main Text - Handwritten with Smooth Top-to-Bottom Gradient */
         .main-text {
-            font-family: 'Dancing Script', cursive;
+            font-family: 'Caveat', cursive;
             font-size: 3.5rem; 
             margin: 0;
-            color: transparent; 
-            -webkit-text-stroke: 2px #ffffff; 
-            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
+            
+            /* Smooth gradient from white to soft pink to slightly deeper pink */
+            background: linear-gradient(to bottom, #ffffff, #ffb3d9, #ff66b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 0px; /* Removed stroke so gradient is visible */
+            
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
             letter-spacing: 2px;
             min-height: 70px;
         }
@@ -161,27 +166,27 @@
             100% { transform: translateY(-10vh) scale(2.0); opacity: 0; }
         }
 
-        /* MOBILE ADJUSTMENTS - THIS IS WHERE YOUR NEW CHANGES ARE */
+        /* MOBILE ADJUSTMENTS */
         @media (max-width: 600px) {
             .text-container { 
-    padding: 15px 20px; 
-    width: 85%; 
-    box-sizing: border-box; 
-}
+                padding: 15px 20px; 
+                width: 85%; 
+                box-sizing: border-box; 
+            }
             .main-text { 
-    font-size: 1.8rem; 
-    line-height: 1.3; 
-    -webkit-text-stroke: 1px #ffffff; 
-}
+                font-size: 1.8rem; 
+                line-height: 1.3; 
+                -webkit-text-stroke: 0px; /* Kept at 0 so gradient shows on mobile */
+            }
             
             /* Moves the text box much higher up on the screen */
             .center-wrapper { top: 30%; } 
             
-            /* Moves the gift box button to the middle-lower portion (above the bottom) */
+            /* Moves the gift box button to the middle-lower portion */
             .bottom-wrapper { bottom: 15%; } 
             
             .heart-btn { width: 120px; height: 120px; }
-            #gift-emoji { font-size: 95px; } /* Slightly scales the gift down for mobile */
+            #gift-emoji { font-size: 95px; } 
             .btn-text { font-size: 1.2rem; }
             .footer-text { font-size: 0.9rem; }
         }
