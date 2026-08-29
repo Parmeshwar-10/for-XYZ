@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proposal</title>
     
-    <!-- Beautiful cursive font from Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
@@ -19,6 +18,7 @@
             background-size: 200% 200%;
             animation: pinkPulse 6s ease-in-out infinite alternate;
             overflow: hidden; 
+            perspective: 1000px; /* Needed for the 3D hover effect */
         }
 
         @keyframes pinkPulse {
@@ -26,10 +26,10 @@
             100% { background-position: 100% 50%; }
         }
 
-        /* Perfectly centered text container */
+        /* Moved the box higher up to 35% instead of 50% */
         .center-wrapper {
             position: absolute;
-            top: 50%;
+            top: 35%; 
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 10;
@@ -38,17 +38,18 @@
             justify-content: center;
         }
 
-        /* Normal rectangular box, no blur effects to prevent browser line glitches */
+        /* The transparent box, now with 3D transition properties */
         .text-container {
-            background: rgba(255, 255, 255, 0.25); /* Clean, semi-transparent white */
+            background: rgba(255, 255, 255, 0.25); 
             padding: 40px 70px;
             border-radius: 20px;
-            border: none; 
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow just on the box */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
             text-align: center;
+            transition: transform 0.1s ease-out; /* Makes the 3D tilt smooth */
+            transform-style: preserve-3d;
         }
 
-        /* The Transparent Text with White Outline */
+        /* The Text */
         .main-text {
             font-family: 'Dancing Script', cursive;
             font-size: 5rem; 
@@ -57,12 +58,21 @@
             -webkit-text-stroke: 3px #ffffff; 
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
             letter-spacing: 2px;
+            min-height: 100px; /* Keeps the box from resizing while typing */
         }
 
-        /* Wrapper to lock the button directly to the bottom */
+        /* Blinking cursor for the typewriter effect */
+        .cursor {
+            color: #ffffff;
+            animation: blink 1s infinite;
+            -webkit-text-stroke: 0px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* The Heart-Shaped Button */
         .bottom-wrapper {
             position: absolute;
-            bottom: 40px; /* Distance from the bottom of the screen */
+            bottom: 40px; 
             left: 0;
             width: 100%;
             display: flex;
@@ -70,7 +80,6 @@
             z-index: 10;
         }
 
-        /* The Heart-Shaped Button containing text */
         .heart-btn {
             position: relative;
             display: inline-flex;
@@ -90,46 +99,33 @@
             left: 0;
             width: 100%;
             height: 100%;
-            fill: #ff0000; /* Bright Red heart */
+            fill: #ff0000; 
             filter: drop-shadow(0 10px 20px rgba(255, 0, 0, 0.5));
             z-index: 1;
         }
 
-        /* Text inside the Heart Button */
         .btn-text {
             position: relative;
-            z-index: 2; /* Keeps text above the heart shape */
+            z-index: 2; 
             color: white;
             font-size: 1.5rem;
             font-weight: bold;
-            font-family: 'Arial', sans-serif;
-            margin-top: -15px; /* Adjusts text visually to center of heart */
+            margin-top: -15px; 
         }
 
-        /* Button Hover and Click Effects */
-        .heart-btn:hover {
-            transform: scale(1.15);
-        }
-        
-        .heart-btn:active {
-            transform: scale(0.9);
-        }
+        .heart-btn:hover { transform: scale(1.15); }
+        .heart-btn:active { transform: scale(0.9); }
 
         @keyframes pulseBtn {
-            0% { transform: scale(1); }
+            0%, 100% { transform: scale(1); }
             50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
         }
 
-        /* Background Floating Hearts */
-        .heart-container {
+        /* Background and Magic Animation layers */
+        .heart-container, .magic-layer {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 1;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
         }
 
         .mini-heart {
@@ -144,30 +140,33 @@
             80% { opacity: 0.9; }
             100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
         }
-        
-        /* Mobile Responsiveness */
+
+        /* Mobile Adjustments */
         @media (max-width: 600px) {
             .text-container { padding: 30px 40px; }
             .main-text { font-size: 3.5rem; -webkit-text-stroke: 2px #ffffff; }
             .bottom-wrapper { bottom: 25px; }
             .heart-btn { width: 120px; height: 120px; }
             .btn-text { font-size: 1.2rem; margin-top: -10px; }
+            .center-wrapper { top: 40%; } /* Slightly lower on mobile so it doesn't hit the top */
         }
     </style>
 </head>
 <body>
 
-    <!-- Dynamic Background Hearts -->
-    <div class="heart-container" id="heart-container"></div>
+    <audio id="bg-music" loop>
+        <source src="your-song.mp3" type="audio/mpeg">
+    </audio>
 
-    <!-- Centered Text Area (No vertical lines!) -->
+    <div class="heart-container" id="heart-container"></div>
+    <div class="magic-layer" id="magic-layer"></div>
+
     <div class="center-wrapper">
-        <div class="text-container">
-            <div class="main-text">XYZ</div>
+        <div class="text-container" id="tilt-box">
+            <div class="main-text" id="typewriter-text"></div>
         </div>
     </div>
     
-    <!-- Heart Shaped Button Locked to the Bottom -->
     <div class="bottom-wrapper">
         <a href="page1.html" class="heart-btn" aria-label="Next Page">
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -177,36 +176,107 @@
         </a>
     </div>
 
-    <!-- JavaScript for Lots of Popping Background Hearts -->
     <script>
+        // --- 1. TYPEWRITER EFFECT ---
+        const textElement = document.getElementById('typewriter-text');
+        const textToType = "XYZ"; // You will change this to your message later
+        let typeIndex = 0;
+
+        function typeWriter() {
+            if (typeIndex < textToType.length) {
+                textElement.innerHTML = textToType.substring(0, typeIndex + 1) + '<span class="cursor">|</span>';
+                typeIndex++;
+                setTimeout(typeWriter, 200); // Speed of typing
+            } else {
+                textElement.innerHTML = textToType; // Remove cursor when done
+            }
+        }
+        setTimeout(typeWriter, 800); // Wait a moment before starting to type
+
+        // --- 2. 3D HOVER TILT FOR LAPTOPS ---
+        const tiltBox = document.getElementById('tilt-box');
+        document.addEventListener('mousemove', (e) => {
+            let xAxis = (window.innerWidth / 2 - e.pageX) / 30;
+            let yAxis = (window.innerHeight / 2 - e.pageY) / 30;
+            tiltBox.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+        });
+
+        // --- 3. BACKGROUND HEARTS ---
         function createMiniHeart() {
             const container = document.getElementById('heart-container');
             const heart = document.createElement('div');
             heart.classList.add('mini-heart');
             heart.innerHTML = '❤';
-
-            // Mostly white hearts, with a few red ones mixed in
-            const colors = ['#ffffff', '#ffffff', '#ffffff', '#ffffff', '#ff0000', '#ff1a75'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-            
-            const size = Math.random() * 40 + 15; 
-            const left = Math.random() * 100; 
-            const duration = Math.random() * 4 + 3; // Float up naturally
-
-            heart.style.color = randomColor;
-            heart.style.fontSize = size + 'px';
-            heart.style.left = left + 'vw';
+            const colors = ['#ffffff', '#ffffff', '#ff0000', '#ff1a75'];
+            heart.style.color = colors[Math.floor(Math.random() * colors.length)];
+            heart.style.fontSize = (Math.random() * 40 + 15) + 'px';
+            heart.style.left = (Math.random() * 100) + 'vw';
+            const duration = Math.random() * 4 + 3;
             heart.style.animation = `floatUp ${duration}s ease-in infinite`;
-
             container.appendChild(heart);
+            setTimeout(() => heart.remove(), duration * 1000);
+        }
+        setInterval(createMiniHeart, 150);
+
+        // --- 4. MAGIC CURSOR TRAIL ---
+        const magicLayer = document.getElementById('magic-layer');
+        function createTrail(x, y) {
+            if (Math.random() > 0.4) return; // Keeps the trail from getting too clustered
+            const sparkle = document.createElement('div');
+            sparkle.innerHTML = '✨';
+            sparkle.style.position = 'absolute';
+            sparkle.style.left = x + 'px';
+            sparkle.style.top = y + 'px';
+            sparkle.style.fontSize = '15px';
+            sparkle.style.pointerEvents = 'none';
+            sparkle.style.transition = 'all 0.5s ease-out';
+            magicLayer.appendChild(sparkle);
 
             setTimeout(() => {
-                heart.remove();
-            }, duration * 1000);
+                sparkle.style.transform = 'translateY(-20px) scale(0)';
+                sparkle.style.opacity = '0';
+            }, 10);
+            setTimeout(() => sparkle.remove(), 500);
         }
+        document.addEventListener('mousemove', (e) => createTrail(e.clientX, e.clientY));
+        document.addEventListener('touchmove', (e) => createTrail(e.touches[0].clientX, e.touches[0].clientY));
 
-        // Running every 80 milliseconds to ensure max hearts
-        setInterval(createMiniHeart, 80);
+        // --- 5. HEARTBURST ON CLICK & 6. PLAY MUSIC ---
+        let musicStarted = false;
+        document.addEventListener('click', (e) => {
+            // Trigger Music
+            if (!musicStarted) {
+                const bgMusic = document.getElementById('bg-music');
+                bgMusic.play().catch(() => {
+                    console.log("Browser blocked autoplay, needs direct user interaction on a button.");
+                });
+                musicStarted = true;
+            }
+
+            // Create Heartburst
+            for (let i = 0; i < 8; i++) {
+                const burstHeart = document.createElement('div');
+                burstHeart.innerHTML = '❤';
+                burstHeart.style.position = 'absolute';
+                burstHeart.style.left = e.clientX + 'px';
+                burstHeart.style.top = e.clientY + 'px';
+                burstHeart.style.color = Math.random() > 0.5 ? '#ffffff' : '#ff0000';
+                burstHeart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                burstHeart.style.pointerEvents = 'none';
+                burstHeart.style.transition = 'all 0.8s ease-out';
+                magicLayer.appendChild(burstHeart);
+
+                // Calculate random outward explosion
+                setTimeout(() => {
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = Math.random() * 60 + 20;
+                    burstHeart.style.transform = `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`;
+                    burstHeart.style.opacity = '0';
+                }, 10);
+
+                setTimeout(() => burstHeart.remove(), 800);
+            }
+        });
     </script>
 </body>
 </html>
