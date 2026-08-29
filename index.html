@@ -14,7 +14,6 @@
             padding: 0;
             height: 100%;
             font-family: 'Arial', sans-serif;
-            /* A deep, romantic pink gradient that pulses */
             background: radial-gradient(circle, #ff66a3, #ff1a75, #cc0052);
             background-size: 200% 200%;
             animation: pinkPulse 6s ease-in-out infinite alternate;
@@ -29,79 +28,71 @@
             100% { background-position: 100% 50%; }
         }
 
-        /* Wrapper to stack everything cleanly without a background box */
+        /* Wrapper to keep everything centered */
         .content-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 10;
-            gap: 20px;
+            gap: 40px; /* Space between the text box and the heart button */
             width: 100%;
             text-align: center;
         }
 
-        /* The Massive Beating Heart */
-        .big-heart {
-            font-size: 160px; /* Massively increased size */
-            color: #ff0040; /* Deep, vivid red-pink */
-            margin: 0;
-            /* Adding a heavy glow around the heart */
-            filter: drop-shadow(0 0 25px rgba(255, 0, 64, 0.8));
-            animation: strongHeartbeat 1s infinite;
+        /* Transparent Glass Screen for the Text */
+        .text-container {
+            background: rgba(255, 255, 255, 0.15); /* Very subtle transparent background */
+            backdrop-filter: blur(10px); /* Blurs the pink background behind it slightly */
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4); /* Thin, soft border */
+            padding: 40px 60px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
-        /* Stronger Heartbeat Animation */
-        @keyframes strongHeartbeat {
-            0%, 100% { transform: scale(1); }
-            15% { transform: scale(1.3); }
-            30% { transform: scale(1.1); }
-            45% { transform: scale(1.35); }
-        }
-
-        /* Transparent Text with White Outline */
+        /* The Transparent Text with White Outline */
         .main-text {
             font-family: 'Dancing Script', cursive;
-            font-size: 5rem; /* Much larger */
-            margin: 10px 0 30px 0;
-            
-            /* The Transparent Effect */
+            font-size: 5rem; 
+            margin: 0;
             color: transparent; 
-            -webkit-text-stroke: 3px #ffffff; /* Thick white outline */
-            
-            /* Soft glow behind the text so it stands out */
-            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
+            -webkit-text-stroke: 3px #ffffff; 
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.5));
             letter-spacing: 2px;
         }
 
-        /* The Vibrant Blue Button */
-        .next-btn {
-            background: linear-gradient(45deg, #0055ff, #00aaff); /* Blue gradient */
-            color: white;
-            border: 2px solid #ffffff; /* White border to tie it together */
-            padding: 18px 60px;
-            font-size: 1.5rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            text-decoration: none; 
+        /* The Heart-Shaped Button */
+        .heart-btn {
             display: inline-block;
-            box-shadow: 0 10px 25px rgba(0, 85, 255, 0.5);
-            transition: all 0.3s ease;
-            font-family: 'Arial', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: pulseBtn 1.5s infinite;
+            text-decoration: none; /* Removes any link underlines */
         }
 
-        .next-btn:hover {
-            transform: translateY(-5px) scale(1.1);
-            box-shadow: 0 15px 35px rgba(0, 85, 255, 0.7);
-            background: linear-gradient(45deg, #00aaff, #0055ff);
+        .heart-btn svg {
+            width: 100%;
+            height: 100%;
+            fill: #ff0040; /* Vivid red-pink for the button */
+            filter: drop-shadow(0 15px 25px rgba(255, 0, 64, 0.7)); /* Glowing shadow */
+        }
+
+        /* Button Hover and Click Effects */
+        .heart-btn:hover {
+            transform: scale(1.15);
         }
         
-        .next-btn:active {
-            transform: translateY(2px) scale(0.95);
-            box-shadow: 0 5px 15px rgba(0, 85, 255, 0.5);
+        .heart-btn:active {
+            transform: scale(0.9);
+        }
+
+        @keyframes pulseBtn {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         /* Background Floating Hearts */
@@ -130,9 +121,9 @@
         
         /* Mobile Responsiveness */
         @media (max-width: 600px) {
-            .big-heart { font-size: 120px; }
-            .main-text { font-size: 4rem; -webkit-text-stroke: 2px #ffffff; }
-            .next-btn { padding: 15px 40px; font-size: 1.2rem; }
+            .text-container { padding: 30px 40px; }
+            .main-text { font-size: 3.5rem; -webkit-text-stroke: 2px #ffffff; }
+            .heart-btn { width: 80px; height: 80px; }
         }
     </style>
 </head>
@@ -141,9 +132,17 @@
     <div class="heart-container" id="heart-container"></div>
 
     <div class="content-wrapper">
-        <div class="big-heart">❤</div>
-        <div class="main-text">XYZ</div>
-        <a href="page1.html" class="next-btn">XYZ</a>
+        
+        <div class="text-container">
+            <div class="main-text">XYZ</div>
+        </div>
+        
+        <a href="page1.html" class="heart-btn" aria-label="Next Page">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+        </a>
+
     </div>
 
     <script>
@@ -153,7 +152,6 @@
             heart.classList.add('mini-heart');
             heart.innerHTML = '❤';
 
-            // Keeping colors strictly in the bright pink and white family to match the theme
             const colors = ['#ffffff', '#ff99cc', '#ff3385', '#ffb3d9'];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             
@@ -173,7 +171,6 @@
             }, duration * 1000);
         }
 
-        // Creates a steady stream of beautiful background hearts
         setInterval(createMiniHeart, 300);
     </script>
 </body>
