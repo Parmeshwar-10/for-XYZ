@@ -35,8 +35,21 @@
             z-index: 10;
             width: 100%;
             display: flex;
+            flex-direction: column; /* Added to stack the text above the box */
+            align-items: center;    /* Added to keep everything perfectly centered */
             justify-content: center;
             pointer-events: none; 
+        }
+
+        /* NEW: Tap Hint Text */
+        .tap-hint {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            animation: floatHint 2s infinite alternate;
         }
 
         /* The transparent box */
@@ -195,7 +208,6 @@
 </head>
 <body>
 
-    <!-- Added preload and playsinline to force Android to get the audio ready instantly -->
     <audio id="bg-music" loop playsinline preload="auto">
         <source src="song.mp3" type="audio/mpeg">
     </audio>
@@ -204,6 +216,7 @@
     <div class="magic-layer" id="magic-layer"></div>
 
     <div class="center-wrapper">
+        <div class="tap-hint">Tap anywhere on the screen! ✨</div>
         <div class="text-container" id="tilt-box">
             <div class="main-text" id="typewriter-text"></div>
         </div>
