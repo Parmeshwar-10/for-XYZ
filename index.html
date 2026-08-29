@@ -36,7 +36,7 @@
             width: 100%;
             display: flex;
             justify-content: center;
-            pointer-events: none; /* Lets touches pass through to the burst effect */
+            pointer-events: none; 
         }
 
         /* The transparent box */
@@ -84,7 +84,7 @@
             color: rgba(255, 255, 255, 0.9);
             font-family: 'Arial', sans-serif;
             font-size: 1rem;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             animation: floatHint 2s infinite alternate;
             pointer-events: none;
         }
@@ -94,44 +94,37 @@
             100% { transform: translateY(-5px); }
         }
 
-        /* The Blue Heart Button */
+        /* The Button Area */
         .heart-btn {
             position: relative;
             display: inline-flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             width: 140px; 
             height: 140px;
             cursor: pointer;
-            touch-action: none; /* CRITICAL: Prevents screen scrolling while scratching */
-            animation: pulseBtn 1.5s infinite;
+            touch-action: none; 
         }
 
-        .heart-btn svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            fill: #0077ff; /* Vivid blue */
-            filter: drop-shadow(0 5px 15px rgba(0, 119, 255, 0.6));
-            z-index: 1;
-            transition: filter 0.1s ease;
+        /* The Gift Emoji */
+        #gift-emoji {
+            font-size: 110px;
+            line-height: 1;
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.2));
+            transition: all 0.1s ease;
+            user-select: none;
         }
 
+        /* The XYZ Text below/inside the gift */
         .btn-text {
-            position: relative;
+            position: absolute;
             z-index: 2; 
             color: white;
             font-size: 1.5rem;
             font-weight: bold;
-            margin-top: -15px; 
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5); /* Shadow added so it can be read over the gift */
             pointer-events: none; 
-        }
-
-        @keyframes pulseBtn {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
         }
 
         /* Custom Footer: Transparent text with solid blue heart */
@@ -148,7 +141,6 @@
             pointer-events: none;
         }
 
-        /* Makes just the words transparent with a white outline */
         .transparent-words {
             color: transparent;
             -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
@@ -173,7 +165,6 @@
             filter: drop-shadow(0 0 5px rgba(255,255,255,0.7));
         }
 
-        /* Animation: Starts at bottom (small) and floats up (increasing in size) */
         @keyframes popUpwards {
             0% { transform: translateY(110vh) scale(0.2); opacity: 0; }
             10% { opacity: 1; }
@@ -181,14 +172,20 @@
             100% { transform: translateY(-10vh) scale(2.0); opacity: 0; }
         }
 
-        /* Mobile Adjustments */
+        /* MOBILE ADJUSTMENTS - THIS IS WHERE YOUR NEW CHANGES ARE */
         @media (max-width: 600px) {
             .text-container { padding: 20px 30px; }
             .main-text { font-size: 2.5rem; -webkit-text-stroke: 1.5px #ffffff; }
-            .bottom-wrapper { bottom: 60px; }
+            
+            /* Moves the text box much higher up on the screen */
+            .center-wrapper { top: 22%; } 
+            
+            /* Moves the gift box button to the middle-lower portion (above the bottom) */
+            .bottom-wrapper { bottom: 35%; } 
+            
             .heart-btn { width: 120px; height: 120px; }
-            .btn-text { font-size: 1.2rem; margin-top: -10px; }
-            .center-wrapper { top: 35%; } 
+            #gift-emoji { font-size: 95px; } /* Slightly scales the gift down for mobile */
+            .btn-text { font-size: 1.2rem; }
             .footer-text { font-size: 0.9rem; }
         }
     </style>
@@ -209,11 +206,9 @@
     </div>
     
     <div class="bottom-wrapper">
-        <div class="scratch-hint">Scratch the blue heart to open...</div>
+        <div class="scratch-hint">Scratch the gift to open...</div>
         <div class="heart-btn" id="scratch-btn" aria-label="Next Page">
-            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" id="heart-svg">
-                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
-            </svg>
+            <span id="gift-emoji">🎁</span>
             <span class="btn-text">XYZ</span>
         </div>
     </div>
@@ -223,7 +218,7 @@
     </div>
 
     <script>
-        // --- 1. TYPEWRITER EFFECT (FIXED) ---
+        // --- 1. TYPEWRITER EFFECT ---
         const textElement = document.getElementById('typewriter-text');
         const textToType = "XYZ"; 
         let typeIndex = 0;
@@ -240,7 +235,7 @@
         }
         setTimeout(typeWriter, 500); 
 
-        // --- 2. BACKGROUND HEARTS: POPPING UP & GROWING (FIXED) ---
+        // --- 2. BACKGROUND HEARTS: POPPING UP & GROWING ---
         function createMiniHeart() {
             const container = document.getElementById('heart-container');
             if (!container) return;
@@ -250,27 +245,22 @@
             const colors = ['#ffffff', '#ffffff', '#ff0000', '#ff1a75'];
             heart.style.color = colors[Math.floor(Math.random() * colors.length)];
             
-            // Random horizontal start position
             heart.style.left = (Math.random() * 100) + 'vw';
-            
-            // Starts small, animation will make it grow
             heart.style.fontSize = '20px'; 
             
-            const duration = Math.random() * 3 + 3; // 3 to 6 seconds to float up
+            const duration = Math.random() * 3 + 3; 
             heart.style.animation = `popUpwards ${duration}s ease-in infinite`;
             
             container.appendChild(heart);
             setTimeout(() => heart.remove(), duration * 1000);
         }
-        // Runs incredibly fast to fill the screen
         setInterval(createMiniHeart, 150);
 
-        // --- 3. HIGH-SENSITIVITY TOUCH HEARTBURST (FIXED) ---
+        // --- 3. HIGH-SENSITIVITY TOUCH HEARTBURST ---
         let musicStarted = false;
         const magicLayer = document.getElementById('magic-layer');
 
         function createBurst(x, y) {
-            // Trigger Music
             if (!musicStarted) {
                 const bgMusic = document.getElementById('bg-music');
                 if(bgMusic) bgMusic.play().catch(() => {});
@@ -300,9 +290,7 @@
             }
         }
 
-        // Works universally on Mouse and Touch screens instantly
         document.addEventListener('mousedown', (e) => {
-            // Don't burst if they are clicking the button
             if (!e.target.closest('#scratch-btn')) {
                 createBurst(e.clientX, e.clientY);
             }
@@ -315,18 +303,17 @@
         }, { passive: true });
 
 
-        // --- 4. SCRATCH TO OPEN LOGIC (FIXED) ---
+        // --- 4. SCRATCH TO OPEN (GIFT BOX EFFECTS) ---
         const scratchBtn = document.getElementById('scratch-btn');
-        const heartSvg = document.getElementById('heart-svg');
+        const giftEmoji = document.getElementById('gift-emoji');
         let scratchProgress = 0;
-        const scratchThreshold = 25; // amount of scratching needed
+        const scratchThreshold = 25; 
         let isRedirecting = false;
 
         function triggerNextPage() {
             if (isRedirecting) return;
             isRedirecting = true;
             
-            // Magical zoom out before leaving
             scratchBtn.style.transform = 'scale(2)';
             scratchBtn.style.opacity = '0';
             scratchBtn.style.transition = 'all 0.6s ease-out';
@@ -340,29 +327,27 @@
             if (isRedirecting) return;
             scratchProgress++;
 
-            // Make the blue heart glow brighter the more it is scratched
+            // Makes the gift box shake and glow as they scratch it!
             const intensity = Math.min(scratchProgress / scratchThreshold, 1);
-            heartSvg.style.filter = `drop-shadow(0 0 ${15 + (intensity * 40)}px rgba(255, 255, 255, 0.9)) hue-rotate(${intensity * 30}deg)`;
+            giftEmoji.style.filter = `drop-shadow(0 0 ${10 + (intensity * 30)}px rgba(255, 255, 255, 0.9))`;
+            giftEmoji.style.transform = `scale(${1 + (intensity * 0.1)}) rotate(${(Math.random() - 0.5) * 15}deg)`;
 
             if (scratchProgress >= scratchThreshold) {
                 triggerNextPage();
             }
         }
 
-        // Touch Scratch (Mobile) - "passive: false" is critical to stop screen scrolling
         scratchBtn.addEventListener('touchmove', (e) => {
             e.preventDefault(); 
             handleScratch();
         }, { passive: false });
 
-        // Mouse Scratch (Laptop)
         scratchBtn.addEventListener('mousemove', (e) => {
-            if (e.buttons > 0) { // Only works if mouse is held down
+            if (e.buttons > 0) { 
                 handleScratch();
             }
         });
 
-        // Backup Click: If they just tap it rapidly, it still works
         scratchBtn.addEventListener('click', () => {
             scratchProgress += 5; 
             handleScratch();
