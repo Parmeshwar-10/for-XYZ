@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just For You</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Rich, Fully Pink Animated Background */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(circle, #ff66a3, #ff1a75, #cc0052);
+            background-size: 200% 200%;
+            animation: pinkPulse 6s ease-in-out infinite alternate;
+            overflow: hidden; 
+        }
+
+        @keyframes pinkPulse {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
+        }
+
+        /* Top Hint Warning */
+        .top-hint {
+            position: absolute;
+            top: 8%;
+            width: 100%;
+            text-align: center;
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.9);
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            letter-spacing: 1.5px;
+            animation: floatHint 2s infinite alternate;
+            z-index: 20;
+            pointer-events: none; 
+        }
+
+        @keyframes floatHint {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-5px); }
+        }
+
+        /* NEW: Cute Stopwatch Timer */
+        .cute-timer {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            font-size: 1rem;
+            font-weight: bold;
+            padding: 8px 16px;
+            border-radius: 20px;
+            z-index: 30;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: opacity 1s ease; /* For smooth fade out at the end */
+        }
+
+        /* Centered Transparent Box Layout */
+        .center-wrapper {
+            position: absolute;
+            top: 45%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            width: 85%;
+            max-width: 600px;
+            display: flex;
+            justify-content: center;
+            pointer-events: none; 
+        }
+
+        .text-container {
+            background: rgba(255, 255, 255, 0.25); 
+            padding: 30px 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); 
+            text-align: center;
+            width: 100%;
+        }
+
+        /* The Typing Lyrics Text */
+        .main-text {
+            font-family: 'Caveat', cursive;
+            font-size: 2.8rem; 
+            margin: 0;
+            line-height: 1.1;
+            
+            background: linear-gradient(to bottom, #ffffff, #aee1ff, #33adff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 0px; 
+            filter: drop-shadow(0 3px 5px rgba(0, 0, 0, 0.3));
+        }
+
+        .cursor {
+            color: #ffffff;
+            animation: blink 1s infinite;
+            -webkit-text-stroke: 0px;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+
+        /* Secure Button Wrapper */
+        .next-btn-wrapper {
+            position: absolute;
+            bottom: 12%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            pointer-events: none; 
+            transition: opacity 2s ease-in;
+            z-index: 20;
+            width: 100%;
+            text-align: center;
+        }
+
+        .next-btn-wrapper.show {
+            opacity: 1;
+            pointer-events: auto; 
+        }
+
+        .next-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .next-btn:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Swaying Musical Notes */
+        .sway-note {
+            animation: sway 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes sway {
+            0% { transform: translateX(-40px) rotate(-15deg); }
+            100% { transform: translateX(40px) rotate(15deg); }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .top-hint { font-size: 1rem; top: 8%; }
+            .cute-timer { top: 15px; right: 15px; font-size: 0.9rem; padding: 6px 12px; }
+            .text-container { padding: 20px 25px; }
+            .main-text { font-size: 2.2rem; }
+            .next-btn { font-size: 1.1rem; padding: 15px 35px; }
+            .next-btn-wrapper { bottom: 10%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Android Audio Player -->
+    <audio id="bg-music" loop playsinline preload="auto">
+        <source src="song.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Floating Background Layer -->
+    <div id="magic-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1;"></div>
+
+    <!-- The Cute Stopwatch -->
+    <div class="cute-timer" id="stopwatch">✨ 1s</div>
+
+    <div class="top-hint">Please wait until the song ends... 🎶✨</div>
+
+    <!-- The Transparent Box -->
+    <div class="center-wrapper">
+        <div class="text-container">
+            <div class="main-text" id="typewriter-lyrics"></div>
+        </div>
+    </div>
+
+    <!-- Button safely hidden until JS reveals it -->
+    <div class="next-btn-wrapper" id="safe-button">
+        <a href="page2.html" class="next-btn">I have a question for you...</a>
+    </div>
+
+    <script>
+        // --- 1. THE CUTE STOPWATCH ENGINE ---
+        const timerElement = document.getElementById('stopwatch');
+        let currentSecond = 1;
+        const maxSeconds = 20;
+
+        const timerInterval = setInterval(() => {
+            currentSecond++;
+            if (currentSecond <= maxSeconds) {
+                timerElement.innerHTML = `✨ ${currentSecond}s`;
+            } else {
+                clearInterval(timerInterval); // Stops counting at 20
+                timerElement.style.opacity = '0'; // Fades away gracefully
+            }
+        }, 1000); // Updates every 1000 milliseconds (1 second)
+
+
+        // --- 2. THE LYRICS TYPEWRITER ENGINE ---
+        const lyricsLines = [
+            "First line of your beautiful song goes here...",
+            "Second line of the lyrics goes right here...",
+            "Third line perfectly timed to the melody...",
+            "And the final line before the button appears ✨"
+        ];
+        
+        const typingSpeed = 80; 
+        const pauseBetweenLines = 1500; 
+
+        const textElement = document.getElementById('typewriter-lyrics');
+        let lineIndex = 0;
+        let charIndex = 0;
+
+        function typeLyric() {
+            if (lineIndex < lyricsLines.length) {
+                if (charIndex < lyricsLines[lineIndex].length) {
+                    let currentText = "";
+                    for(let i = 0; i < lineIndex; i++) {
+                        currentText += lyricsLines[i] + "<br><br>"; 
+                    }
+                    currentText += lyricsLines[lineIndex].substring(0, charIndex + 1) + '<span class="cursor">|</span>';
+                    textElement.innerHTML = currentText;
+                    charIndex++;
+                    
+                    setTimeout(typeLyric, typingSpeed); 
+                } else {
+                    let currentText = "";
+                    for(let i = 0; i <= lineIndex; i++) {
+                        currentText += lyricsLines[i] + "<br><br>";
+                    }
+                    textElement.innerHTML = currentText;
+                    
+                    lineIndex++;
+                    charIndex = 0;
+                    
+                    setTimeout(typeLyric, pauseBetweenLines); 
+                }
+            } else {
+                let currentText = "";
+                for(let i = 0; i < lyricsLines.length; i++) {
+                    currentText += lyricsLines[i] + (i < lyricsLines.length - 1 ? "<br><br>" : "");
+                }
+                textElement.innerHTML = currentText;
+            }
+        }
+
+        setTimeout(typeLyric, 1000);
+
+
+        // --- 3. BULLETPROOF ANDROID AUDIO UNLOCKER ---
+        let musicStarted = false;
+        const bgMusic = document.getElementById('bg-music');
+
+        function unlockAudio() {
+            if (!musicStarted && bgMusic) {
+                const playPromise = bgMusic.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        musicStarted = true;
+                        document.removeEventListener('touchstart', unlockAudio);
+                        document.removeEventListener('click', unlockAudio);
+                    }).catch(() => {});
+                }
+            }
+        }
+        
+        document.addEventListener('touchstart', unlockAudio, { passive: true });
+        document.addEventListener('click', unlockAudio);
+
+
+        // --- 4. SWAYING MUSICAL NOTES ---
+        const magicLayer = document.getElementById('magic-layer');
+
+        function createFloatingNote() {
+            const wrapper = document.createElement('div');
+            wrapper.style.position = 'absolute';
+            wrapper.style.left = (Math.random() * 100) + 'vw';
+            wrapper.style.top = '110vh'; 
+            wrapper.style.transition = 'transform 5s linear, opacity 0.5s ease-out 4.5s';
+            
+            const note = document.createElement('div');
+            const notes = ['🎵', '🎶', '🎼'];
+            note.innerHTML = notes[Math.floor(Math.random() * notes.length)];
+            note.style.fontSize = (Math.random() * 25 + 15) + 'px';
+            note.style.opacity = '1';
+            note.style.filter = 'drop-shadow(0 0 5px rgba(255,255,255,0.8))';
+            
+            note.classList.add('sway-note');
+            note.style.animationDuration = (Math.random() * 2 + 2) + 's';
+            note.style.animationDelay = '-' + (Math.random() * 2) + 's';
+
+            wrapper.appendChild(note);
+            magicLayer.appendChild(wrapper);
+
+            setTimeout(() => {
+                wrapper.style.transform = `translateY(-120vh)`;
+                wrapper.style.opacity = '0';
+            }, 10);
+
+            setTimeout(() => wrapper.remove(), 5000);
+        }
+
+        setInterval(createFloatingNote, 150);
+
+        // --- 5. THE 20-SECOND BUTTON REVEAL ---
+        setTimeout(() => {
+            document.getElementById('safe-button').classList.add('show');
+        }, 20000); // Exactly 20 seconds
+    </script>
+</body>
+</html>
