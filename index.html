@@ -8,144 +8,131 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <style>
-        /* Base Theme: Pink and Blue Gradient */
+        /* Rich, Fully Pink Animated Background */
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
             font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #ffb6c1, #a3c2fa, #ffb6c1);
+            /* A deep, romantic pink gradient that pulses */
+            background: radial-gradient(circle, #ff66a3, #ff1a75, #cc0052);
             background-size: 200% 200%;
-            animation: gradientShift 10s ease infinite;
-            overflow: hidden; /* Keeps the floating hearts from creating scrollbars */
+            animation: pinkPulse 6s ease-in-out infinite alternate;
+            overflow: hidden; 
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* Subtle background animation */
-        @keyframes gradientShift {
+        @keyframes pinkPulse {
             0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+            100% { background-position: 100% 50%; }
         }
 
-        /* The Main Decorative Box */
-        .proposal-box {
-            background: rgba(255, 255, 255, 0.45);
-            backdrop-filter: blur(12px); /* Glassmorphism effect */
-            -webkit-backdrop-filter: blur(12px);
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            padding: 50px 30px;
-            border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 0 20px rgba(255, 105, 180, 0.3);
-            text-align: center;
-            max-width: 85%;
-            width: 450px;
-            z-index: 10; /* Ensures the box stays in front of the floating hearts */
-            animation: fadeInBox 2s ease-out;
+        /* Wrapper to stack everything cleanly without a background box */
+        .content-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            z-index: 10;
             gap: 20px;
+            width: 100%;
+            text-align: center;
         }
 
-        /* Cursive Font Text Area */
+        /* The Massive Beating Heart */
+        .big-heart {
+            font-size: 160px; /* Massively increased size */
+            color: #ff0040; /* Deep, vivid red-pink */
+            margin: 0;
+            /* Adding a heavy glow around the heart */
+            filter: drop-shadow(0 0 25px rgba(255, 0, 64, 0.8));
+            animation: strongHeartbeat 1s infinite;
+        }
+
+        /* Stronger Heartbeat Animation */
+        @keyframes strongHeartbeat {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.3); }
+            30% { transform: scale(1.1); }
+            45% { transform: scale(1.35); }
+        }
+
+        /* Transparent Text with White Outline */
         .main-text {
             font-family: 'Dancing Script', cursive;
-            font-size: 3.5rem;
-            color: #d11a6a;
-            line-height: 1.2;
-            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
-            margin-bottom: 10px;
+            font-size: 5rem; /* Much larger */
+            margin: 10px 0 30px 0;
+            
+            /* The Transparent Effect */
+            color: transparent; 
+            -webkit-text-stroke: 3px #ffffff; /* Thick white outline */
+            
+            /* Soft glow behind the text so it stands out */
+            filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
+            letter-spacing: 2px;
         }
 
-        /* The Big Beating Heart */
-        .big-heart {
-            font-size: 70px;
-            color: #ff1493;
-            margin: 0;
-            filter: drop-shadow(0 0 10px rgba(255, 20, 147, 0.6));
-            animation: heartbeat 1.2s infinite;
-        }
-
-        /* The Pressable Button */
+        /* The Vibrant Blue Button */
         .next-btn {
-            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            background: linear-gradient(45deg, #0055ff, #00aaff); /* Blue gradient */
             color: white;
-            border: none;
-            padding: 15px 50px;
-            font-size: 1.3rem;
+            border: 2px solid #ffffff; /* White border to tie it together */
+            padding: 18px 60px;
+            font-size: 1.5rem;
             font-weight: bold;
-            border-radius: 40px;
+            border-radius: 50px;
             cursor: pointer;
-            text-decoration: none; /* Keeps link looking like a button */
+            text-decoration: none; 
             display: inline-block;
-            box-shadow: 0 8px 15px rgba(255, 105, 180, 0.5);
+            box-shadow: 0 10px 25px rgba(0, 85, 255, 0.5);
             transition: all 0.3s ease;
             font-family: 'Arial', sans-serif;
-            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Button Hover and Press Animations */
         .next-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 25px rgba(255, 20, 147, 0.6);
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 15px 35px rgba(0, 85, 255, 0.7);
+            background: linear-gradient(45deg, #00aaff, #0055ff);
         }
+        
         .next-btn:active {
             transform: translateY(2px) scale(0.95);
-            box-shadow: 0 5px 10px rgba(255, 20, 147, 0.6);
+            box-shadow: 0 5px 15px rgba(0, 85, 255, 0.5);
         }
 
-        /* Container for Floating Hearts */
+        /* Background Floating Hearts */
         .heart-container {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            pointer-events: none; /* Allows user to click through the hearts */
+            pointer-events: none;
             z-index: 1;
         }
 
         .mini-heart {
             position: absolute;
             opacity: 0;
-        }
-
-        /* Keyframe Animations */
-        @keyframes heartbeat {
-            0%, 100% { transform: scale(1); }
-            20% { transform: scale(1.25); }
-            40% { transform: scale(1.1); }
-            60% { transform: scale(1.35); }
-        }
-
-        @keyframes fadeInBox {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.5));
         }
 
         @keyframes floatUp {
-            0% {
-                transform: translateY(100vh) scale(0.2) rotate(0deg);
-                opacity: 0;
-            }
-            20% {
-                opacity: 0.8;
-                transform: translateY(80vh) scale(1.2) rotate(15deg);
-            }
-            50% {
-                transform: translateY(50vh) scale(0.8) rotate(-15deg);
-            }
-            80% {
-                opacity: 0.7;
-                transform: translateY(20vh) scale(1.3) rotate(10deg);
-            }
-            100% {
-                transform: translateY(-10vh) scale(0.5) rotate(-10deg);
-                opacity: 0;
-            }
+            0% { transform: translateY(100vh) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 0.8; }
+            100% { transform: translateY(-10vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            .big-heart { font-size: 120px; }
+            .main-text { font-size: 4rem; -webkit-text-stroke: 2px #ffffff; }
+            .next-btn { padding: 15px 40px; font-size: 1.2rem; }
         }
     </style>
 </head>
@@ -153,10 +140,9 @@
 
     <div class="heart-container" id="heart-container"></div>
 
-    <div class="proposal-box">
+    <div class="content-wrapper">
         <div class="big-heart">❤</div>
         <div class="main-text">XYZ</div>
-        
         <a href="page1.html" class="next-btn">XYZ</a>
     </div>
 
@@ -167,30 +153,28 @@
             heart.classList.add('mini-heart');
             heart.innerHTML = '❤';
 
-            // Randomize heart colors to fit the theme
-            const colors = ['#ffb6c1', '#ff69b4', '#ff1493', '#add8e6', '#ffffff'];
+            // Keeping colors strictly in the bright pink and white family to match the theme
+            const colors = ['#ffffff', '#ff99cc', '#ff3385', '#ffb3d9'];
             const randomColor = colors[Math.floor(Math.random() * colors.length)];
             
-            // Randomize position, size, and animation duration
-            const size = Math.random() * 30 + 10; // Between 10px and 40px
-            const left = Math.random() * 100; // Random horizontal position across screen
-            const duration = Math.random() * 4 + 4; // Float takes 4 to 8 seconds
+            const size = Math.random() * 40 + 15; 
+            const left = Math.random() * 100; 
+            const duration = Math.random() * 5 + 3; 
 
             heart.style.color = randomColor;
             heart.style.fontSize = size + 'px';
             heart.style.left = left + 'vw';
-            heart.style.animation = `floatUp ${duration}s linear infinite`;
+            heart.style.animation = `floatUp ${duration}s ease-in infinite`;
 
             container.appendChild(heart);
 
-            // Clean up hearts after they float away to keep performance smooth
             setTimeout(() => {
                 heart.remove();
             }, duration * 1000);
         }
 
-        // Create a new heart every 400 milliseconds for a dense, beautiful effect
-        setInterval(createMiniHeart, 400);
+        // Creates a steady stream of beautiful background hearts
+        setInterval(createMiniHeart, 300);
     </script>
 </body>
 </html>
