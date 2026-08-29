@@ -223,7 +223,7 @@
     <script>
         // --- 1. TYPEWRITER EFFECT ---
         const textElement = document.getElementById('typewriter-text');
-        const textToType = "hello everyone, this side your lovely parmeshwar with this new site. this is just testing text to analysie the text size ansd typing speed. "; 
+        const textToType = "hello everyone,this side parmeshwar. and this is testing text to just find out how my site is responding to the texts. "; 
         let typeIndex = 0;
 
         function typeWriter() {
@@ -231,7 +231,7 @@
             if (typeIndex < textToType.length) {
                 textElement.innerHTML = textToType.substring(0, typeIndex + 1) + '<span class="cursor">|</span>';
                 typeIndex++;
-                setTimeout(typeWriter, 150); 
+                setTimeout(typeWriter, 220); 
             } else {
                 textElement.innerHTML = textToType; 
             }
