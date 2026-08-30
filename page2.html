@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just For You</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Rich, Vibrant Pink Animated Background */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(-45deg, #ff66a3, #ff1a75, #cc0052, #ff99cc);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* The Main Content Container */
+        .main-container {
+            text-align: center;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px; 
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* HIGHLIGHTED SINCERE NOTE */
+        .sincere-note {
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.95rem;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 15px 25px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            max-width: 85%;
+            line-height: 1.6;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            animation: glowingFloat 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowingFloat {
+            0% { 
+                transform: translateY(0px); 
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2), 0 0 10px rgba(255, 255, 255, 0.2);
+            }
+            100% { 
+                transform: translateY(-8px); 
+                box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2), 0 0 25px rgba(255, 255, 255, 0.7);
+            }
+        }
+
+        /* The Question Text */
+        .main-text {
+            font-family: 'Caveat', cursive;
+            font-size: 4.5rem; 
+            margin: 0;
+            line-height: 1.1;
+            background: linear-gradient(to right, #ffffff, #ffe6f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+            transition: all 0.5s ease; 
+        }
+
+        /* The Video Container */
+        .gif-container {
+            width: 240px;
+            height: 240px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background-color: #ffffff; 
+            position: relative;
+            z-index: 10;
+        }
+
+        .gif-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none; 
+        }
+
+        /* Buttons Wrapper */
+        .buttons-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            z-index: 5;
+            width: 100%;
+            min-height: 80px; 
+            margin-top: 10px;
+        }
+
+        /* Buttons Styling */
+        .btn {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            padding: 12px 45px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            user-select: none;
+            transform-origin: center center;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        #yes-btn {
+            background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
+            border: none;
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.4);
+        }
+
+        #yes-btn:hover {
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+        }
+
+        #no-btn {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            border: none;
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .sincere-note { font-size: 0.85rem; padding: 12px 18px; }
+            .main-text { font-size: 3.5rem; }
+            .gif-container { width: 200px; height: 200px; }
+            .btn { font-size: 1.2rem; padding: 10px 30px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        
+        <div class="sincere-note" id="sincere-text">
+            ✨ Just a quick note: I know the button below is a joke, but please don't feel pressured. You are completely free to say no in real life, and I respect your choice entirely! ✨
+        </div>
+
+        <h1 class="main-text" id="question-text">Will you go on a<br>coffee date with me?</h1>
+        
+        <div class="gif-container" id="gif-box">
+            <video id="main-video" autoplay loop muted playsinline>
+                <source id="video-source" src="asking_video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        
+        <div class="buttons-wrapper" id="btn-group">
+            <button class="btn" id="yes-btn">YES</button>
+            <button class="btn" id="no-btn">NO</button>
+        </div>
+
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('no-btn');
+        const yesBtn = document.getElementById('yes-btn');
+        const questionText = document.getElementById('question-text');
+        const btnGroup = document.getElementById('btn-group');
+        const mainVideo = document.getElementById('main-video');
+        const videoSource = document.getElementById('video-source');
+        const gifBox = document.getElementById('gif-box');
+        const sincereText = document.getElementById('sincere-text');
+
+        let noClickCount = 0;
+        const noPhrases = [
+            "NO", 
+            "Are you sure?", 
+            "Really sure?", 
+            "Think again!", 
+            "Last chance!", 
+            "Surely not?", 
+            "plzz 🙏"
+        ];
+
+        // --- 1. SHRINKING "NO" & CONTROLLED GROWING "YES" ---
+        noBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            noClickCount++;
+
+            // Update text based on click count
+            if (noClickCount < noPhrases.length) {
+                noBtn.innerText = noPhrases[noClickCount];
+            } else {
+                noBtn.innerText = "plzz 🙏";
+            }
+
+            // Decrease No Button
+            const noScale = Math.max(0.35, 1 - (noClickCount * 0.12));
+            noBtn.style.transform = `scale(${noScale})`;
+            
+            // Increase Yes Button (Capped at 1.6x so it NEVER overlaps the video box)
+            const yesScale = Math.min(1.6, 1 + (noClickCount * 0.12));
+            yesBtn.style.transform = `scale(${yesScale})`;
+        });
+
+
+        // --- 2. THE "YES" BUTTON VICTORY LOGIC ---
+        yesBtn.addEventListener('click', () => {
+            // Change the text to a Victory message
+            questionText.innerHTML = "Yayy! I knew it! <br> It's a date! 🎉💙";
+            
+            // Hide the serious text smoothly
+            sincereText.style.transition = "opacity 0.5s ease";
+            sincereText.style.opacity = "0";
+
+            // Hide the buttons smoothly
+            btnGroup.style.transition = "opacity 0.5s ease";
+            btnGroup.style.opacity = "0";
+            
+            setTimeout(() => { 
+                btnGroup.style.display = "none"; 
+                sincereText.style.display = "none";
+            }, 500);
+
+            // Swap to victory video locally
+            videoSource.src = "happy_video.mp4";
+            mainVideo.load();
+            mainVideo.play();
+            
+            // Give the video box a happy little bounce
+            gifBox.style.transform = "scale(1.1)";
+            setTimeout(() => { gifBox.style.transform = "scale(1)"; }, 400);
+
+            // Trigger central party popper explosion
+            triggerPartyPopper();
+        });
+
+
+        // --- 3. CENTRAL PARTY POPPER BURST ---
+        function triggerPartyPopper() {
+            const colors = ['#FFD700', '#FF66A3', '#33ADFF', '#FFFFFF', '#00E5FF'];
+            const numConfetti = 150; 
+            
+            for (let i = 0; i < numConfetti; i++) {
+                const confetti = document.createElement('div');
+                
+                if (Math.random() > 0.5) {
+                    confetti.style.width = (Math.random() * 8 + 5) + 'px';
+                    confetti.style.height = confetti.style.width;
+                    confetti.style.borderRadius = '50%';
+                } else {
+                    confetti.style.width = (Math.random() * 8 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 12 + 8) + 'px';
+                }
+                
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.position = 'absolute';
+                confetti.style.left = '50%';
+                confetti.style.top = '50%';
+                confetti.style.zIndex = '100';
+                confetti.style.pointerEvents = 'none'; 
+                document.body.appendChild(confetti);
+
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 200 + Math.random() * 400; 
+                
+                const tx = Math.cos(angle) * velocity;
+                const ty = Math.sin(angle) * velocity - (Math.random() * 150); 
+                const rot = Math.random() * 720;
+
+                confetti.animate([
+                    { transform: 'translate(-50%, -50%) rotate(0deg)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) rotate(${rot}deg)`, opacity: 1, offset: 0.7 },
+                    { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty + 200}px)) rotate(${rot + 180}deg)`, opacity: 0 } 
+                ], {
+                    duration: 1500 + Math.random() * 2000, 
+                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)', 
+                    fill: 'forwards'
+                });
+
+                setTimeout(() => confetti.remove(), 3500);
+            }
+        }
+    </script>
+</body>
+</html>
